@@ -70,6 +70,13 @@
     const listCommentEl = document.querySelector(".comments");
 
     button.addEventListener("click", () => {
+      if (nameEl.value === '') {
+        nameEl.style.backgroundColor = 'rgb(231, 67, 67)';
+        return;
+      } else if (commentEl.value === '') {
+        commentEl.style.backgroundColor = 'rgb(231, 67, 67)';
+        return;
+      };
       const oldListCommentEl = listCommentEl.innerHTML;
 
       let timeEl = new Date();
