@@ -64,8 +64,34 @@
   </body>
 
   <script>
-    "use strict";
-    // Код писать здесь
-    console.log("It works!");
+    const button = document.querySelector(".add-form-button");
+    const nameEl = document.querySelector(".add-form-name");
+    const commentEl = document.querySelector(".add-form-text");
+    const listCommentEl = document.querySelector(".comments");
+
+    button.addEventListener("click", () => {
+      const oldListCommentEl = listCommentEl.innerHTML;
+
+      let timeEl = new Date();
+
+      listCommentEl.innerHTML = oldListCommentEl +`<li class="comment">
+          <div class="comment-header">
+            <div>Варвара Н.</div>
+            <div>13.02.22 19:22</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              Мне нравится как оформлена эта страница! ❤
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">75</span>
+              <button class="like-button -active-like"></button>
+            </div>
+          </div>
+        </li>`;
+    })
+
   </script>
 </html>
