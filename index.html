@@ -77,7 +77,7 @@
       listCommentEl.innerHTML = oldListCommentEl +`<li class="comment">
           <div class="comment-header">
             <div>${nameEl.value}</div>
-            <div>13.02.22 19:22</div>
+            <div>${timeEl.toLocaleDateString([], {year: '2-digit', month: 'numeric', day: 'numeric'})} ${timeEl.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
