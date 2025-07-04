@@ -68,9 +68,14 @@
     const nameEl = document.querySelector(".add-form-name");
     const commentEl = document.querySelector(".add-form-text");
     const listCommentEl = document.querySelector(".comments");
+    const likeButtonEl = document.querySelector(".like-button");
 
     button.addEventListener("click", () => {
-      if (nameEl.value === '') {
+      if (nameEl.value === '' && commentEl.value === '') {
+        nameEl.style.backgroundColor = 'rgb(231, 67, 67)';
+        commentEl.style.backgroundColor = 'rgb(231, 67, 67)';
+        return;
+      } else if (nameEl.value === '') {
         nameEl.style.backgroundColor = 'rgb(231, 67, 67)';
         return;
       } else if (commentEl.value === '') {
@@ -100,7 +105,13 @@
         </li>`;
         nameEl.value = "";
         commentEl.value = "";
+        nameEl.style.backgroundColor = '#fff';
+        commentEl.style.backgroundColor = '#fff';
     })
+
+    // likeButtonEl.addEventListener("click", () => {
+    //   likeButtonEl.className += ' -active-like';
+    // })
 
   </script>
 </html>
