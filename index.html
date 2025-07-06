@@ -38,5 +38,51 @@
 
     const commentInfo = [{name: "Глеб Фокин", text: "Это будет первый комментарий на этой странице", data: "12.02.22 12:18", counter: 3, likeActive: false}, {name: "Варвара Н.", text: "Мне нравится как оформлена эта страница! ❤", data: "13.02.22 19:22", counter: 75, likeActive: true}];
 
+    const initLikeListeners = () => {
+      const likeButtonElements = document.querySelectorAll(".like-button");
+
+      for (const likeButtonElement of likeButtonElements) {
+        likeButtonElement.addEventListener("click", () => {
+          const index = likeButtonElement.dataset.index;
+          const comment = commentInfo[index];
+
+          comment.counter = comment.likeActive ? comment.counter - 1 : comment.counter + 1;
+          comment.likeActive = !comment.likeActive;
+
+          renderComments();
+        })
+      }
+    }
+
+    const renderComments = () => {
+      const commentsHTML = commentInfo
+      .map((comment, index) => {
+        return `<li class="comment">
+          <div class="comment-header">
+            <div>${comment.name}</div>
+            <div>${comment.data}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              ${comment.text}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">${comment.counter}</span>
+              <button class="like-button ${comment.likeActive ? "-active-like" : ""}" data-index="${index}"></button>
+            </div>
+          </div>
+        </li>`
+      })
+      .join("");
+
+      listCommentEl.innerHTML = commentsHTML;
+
+      initLikeListeners();
+    }
+
+    renderComments();
+
   </script>
 </html>
