@@ -42,7 +42,9 @@
       const likeButtonElements = document.querySelectorAll(".like-button");
 
       for (const likeButtonElement of likeButtonElements) {
-        likeButtonElement.addEventListener("click", () => {
+        likeButtonElement.addEventListener("click", (event) => {
+          event.stopPropagation();
+
           const index = likeButtonElement.dataset.index;
           const comment = commentInfo[index];
 
@@ -51,13 +53,23 @@
 
           renderComments();
         })
-      }
+      };
+
+      const commentsElements = document.querySelectorAll(".comment");
+
+      for (const commentsElement of commentsElements) {
+        commentsElement.addEventListener("click", () => {
+          const currentComment = commentInfo[commentsElement.dataset.index]
+
+          commentEl.value = `${currentComment.name}: ${currentComment.text}`
+        })
+      };
     }
 
     const renderComments = () => {
       const commentsHTML = commentInfo
       .map((comment, index) => {
-        return `<li class="comment">
+        return `<li class="comment" data-index="${index}">
           <div class="comment-header">
             <div>${comment.name}</div>
             <div>${comment.data}</div>
@@ -104,7 +116,7 @@
 
       let timeEl = new Date();
 
-      const newUsers = {name: nameEl.value, text: commentEl.value, data: `${timeEl.toLocaleDateString([], {year: '2-digit', month: 'numeric', day: 'numeric'})} ${timeEl.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`, counter: 0, likeActive: false};
+      const newUsers = {name: clearHTML(nameEl.value), text: clearHTML(commentEl.value), data: `${timeEl.toLocaleDateString([], {year: '2-digit', month: 'numeric', day: 'numeric'})} ${timeEl.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })}`, counter: 0, likeActive: false};
 
       commentInfo.push(newUsers);
       renderComments();
