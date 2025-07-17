@@ -1,4 +1,10 @@
-const renderComments = () => {
+import {commentInfo} from "./commentInfo.js";
+import {initLikeListeners} from "./initListeners.js";
+
+const listCommentEl = document.querySelector(".comments");
+const likeButtonEl = document.querySelector(".like-button")
+
+export const renderComments = () => {
       const commentsHTML = commentInfo
       .map((comment, index) => {
         return `<li class="comment" data-index="${index}">
