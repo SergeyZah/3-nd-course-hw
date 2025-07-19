@@ -1,0 +1,23 @@
+{
+  "name": "3-nd-course-hw",
+  "version": "1.0.0",
+  "description": "https://glebkaf.github.io/webdev-dom-homework/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergeyZah/3-nd-course-hw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SergeyZah/3-nd-course-hw/issues"
+  },
+  "homepage": "https://github.com/SergeyZah/3-nd-course-hw#readme",
+  "dependencies": {
+    "date-fns": "^4.1.0"
+  }
+}
