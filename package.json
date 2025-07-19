@@ -19,5 +19,8 @@
   "homepage": "https://github.com/SergeyZah/3-nd-course-hw#readme",
   "dependencies": {
     "date-fns": "^4.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }
