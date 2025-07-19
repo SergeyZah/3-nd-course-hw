@@ -1,13 +1,13 @@
-import {commentInfo} from "./commentInfo.js";
-import {initLikeListeners} from "./initListeners.js";
+import { commentInfo } from './commentInfo.js'
+import { initLikeListeners } from './initListeners.js'
 
-const listCommentEl = document.querySelector(".comments");
-const likeButtonEl = document.querySelector(".like-button")
+const listCommentEl = document.querySelector('.comments')
+const likeButtonEl = document.querySelector('.like-button')
 
 export const renderComments = () => {
-      const commentsHTML = commentInfo
-      .map((comment, index) => {
-        return `<li class="comment" data-index="${index}">
+    const commentsHTML = commentInfo
+        .map((comment, index) => {
+            return `<li class="comment" data-index="${index}">
           <div class="comment-header">
             <div>${comment.name}</div>
             <div>${comment.data}</div>
@@ -20,14 +20,14 @@ export const renderComments = () => {
           <div class="comment-footer">
             <div class="likes">
               <span class="likes-counter">${comment.counter}</span>
-              <button class="like-button ${comment.likeActive ? "-active-like" : ""}" data-index="${index}"></button>
+              <button class="like-button ${comment.likeActive ? '-active-like' : ''}" data-index="${index}"></button>
             </div>
           </div>
         </li>`
-      })
-      .join("");
+        })
+        .join('')
 
-      listCommentEl.innerHTML = commentsHTML;
+    listCommentEl.innerHTML = commentsHTML
 
-      initLikeListeners();
-    }
+    initLikeListeners()
+}
