@@ -1,5 +1,6 @@
 import { commentInfo } from './commentInfo.js'
 import { initLikeListeners } from './initListeners.js'
+import { initCommentListeners } from './initListeners.js'
 
 const listCommentEl = document.querySelector('.comments')
 const likeButtonEl = document.querySelector('.like-button')
@@ -30,4 +31,5 @@ export const renderComments = () => {
     listCommentEl.innerHTML = commentsHTML
 
     initLikeListeners()
+    initCommentListeners()
 }
