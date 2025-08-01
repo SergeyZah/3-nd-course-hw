@@ -14,12 +14,12 @@ export const initLikeListeners = () => {
             event.stopPropagation()
 
             const index = likeButtonElement.dataset.index
-            const comment = commentInfo[index]
+            const comments = commentInfo[index]
 
-            comment.counter = comment.likeActive
-                ? comment.counter - 1
-                : comment.counter + 1
-            comment.likeActive = !comment.likeActive
+            comments.likes = comments.isLiked
+                ? comments.likes - 1
+                : comments.likes + 1
+            comments.isLiked = !comments.isLiked
 
             renderComments()
         })
