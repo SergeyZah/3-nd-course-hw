@@ -6,6 +6,8 @@ import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 const commentEl = document.querySelector('.add-form-text')
 const button = document.querySelector('.add-form-button')
 const nameEl = document.querySelector('.add-form-name')
+const form = document.querySelector('.add-form')
+const loaderNewComments = document.querySelector('.loader-new')
 
 export const initLikeListeners = () => {
     const likeButtonElements = document.querySelectorAll('.like-button')
@@ -57,6 +59,9 @@ button.addEventListener('click', () => {
         return
     }
 
+    loaderNewComments.classList.remove('hidden')
+    form.classList.add('hidden')
+
     const newCommentInfo = {
         text: clearHTML(commentEl.value),
         name: clearHTML(nameEl.value),
@@ -66,13 +71,20 @@ button.addEventListener('click', () => {
         method: 'POST',
         body: JSON.stringify(newCommentInfo),
     }).then((response) => {
+
+        loaderNewComments.classList.add('hidden')
+        form.classList.remove('hidden')
+
         const responseStatus = response.status
+
         if (responseStatus === 201) {
             return fetchAndRenderComments()
-        }
-        if (responseStatus === 400) {
+            
+        } else if (responseStatus === 400) {
             if (nameEl.value.length < 3 || commentEl.value.length < 3) {
-                alert('Упс, ошибка! В поле для заполнения должно быть больше трёх символов!')
+                alert(
+                    'Упс, ошибка! В поле для заполнения должно быть больше трёх символов!',
+                )
                 return
             }
         }
