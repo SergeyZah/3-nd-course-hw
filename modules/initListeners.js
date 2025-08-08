@@ -1,7 +1,6 @@
 import { commentInfo } from './commentInfo.js'
 import { renderComments } from './renderComments.js'
 import { clearHTML } from './utils.js'
-import { updateCommentInfo } from './commentInfo.js'
 import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 
 const commentEl = document.querySelector('.add-form-text')
@@ -58,19 +57,9 @@ button.addEventListener('click', () => {
         return
     }
 
-    let timeEl = new Date()
-
     const newCommentInfo = {
         text: clearHTML(commentEl.value),
         name: clearHTML(nameEl.value),
-    }
-
-    const newUsers = {
-        author: { name: clearHTML(nameEl.value) },
-        text: clearHTML(commentEl.value),
-        date: `${timeEl.toLocaleDateString([], { year: '2-digit', month: 'numeric', day: 'numeric' })} ${timeEl.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
-        likes: 0,
-        isLiked: false,
     }
 
     fetch('https://wedev-api.sky.pro/api/v1/sergei-zaharychev/comments', {
