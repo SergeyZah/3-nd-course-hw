@@ -2,6 +2,7 @@ import { commentInfo } from './commentInfo.js'
 import { renderComments } from './renderComments.js'
 import { clearHTML } from './utils.js'
 import { updateCommentInfo } from './commentInfo.js'
+import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 
 const commentEl = document.querySelector('.add-form-text')
 const button = document.querySelector('.add-form-button')
@@ -65,7 +66,7 @@ button.addEventListener('click', () => {
     }
 
     const newUsers = {
-        author: {name: clearHTML(nameEl.value)},
+        author: { name: clearHTML(nameEl.value) },
         text: clearHTML(commentEl.value),
         date: `${timeEl.toLocaleDateString([], { year: '2-digit', month: 'numeric', day: 'numeric' })} ${timeEl.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
         likes: 0,
@@ -78,19 +79,16 @@ button.addEventListener('click', () => {
     }).then((response) => {
         const responseStatus = response.status
         if (responseStatus === 201) {
-            commentInfo.push(newUsers)
-            updateCommentInfo(commentInfo)
-            renderComments()
+            return fetchAndRenderComments()
         }
         if (responseStatus === 400) {
             if (nameEl.value.length < 3 || commentEl.value.length < 3) {
-            alert('Поля должны иметь больше трёх символов')
-            return
-        }
+                alert('Упс, ошибка! В поле для заполнения должно быть больше трёх символов!')
+                return
+            }
         }
     })
 
     nameEl.value = ''
     commentEl.value = ''
-
 })
