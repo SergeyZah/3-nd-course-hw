@@ -3,15 +3,15 @@ import { initLikeListeners } from './initListeners.js'
 import { initCommentListeners } from './initListeners.js'
 
 const listCommentEl = document.querySelector('.comments')
-const likeButtonEl = document.querySelector('.like-button')
 
 export const renderComments = () => {
+  
     const commentsHTML = commentInfo
         .map((comment, index) => {
             return `<li class="comment" data-index="${index}">
           <div class="comment-header">
-            <div>${comment.name}</div>
-            <div>${comment.data}</div>
+            <div>${comment.author.name}</div>
+            <div>${comment.date}</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
@@ -20,8 +20,8 @@ export const renderComments = () => {
           </div>
           <div class="comment-footer">
             <div class="likes">
-              <span class="likes-counter">${comment.counter}</span>
-              <button class="like-button ${comment.likeActive ? '-active-like' : ''}" data-index="${index}"></button>
+              <span class="likes-counter">${comment.likes}</span>
+              <button class="like-button ${comment.isLiked ? '-active-like' : ''}" data-index="${index}"></button>
             </div>
           </div>
         </li>`

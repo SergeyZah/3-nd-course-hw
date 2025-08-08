@@ -1,6 +1,7 @@
 import { commentInfo } from './commentInfo.js'
 import { renderComments } from './renderComments.js'
 import { clearHTML } from './utils.js'
+import { updateCommentInfo } from './commentInfo.js'
 
 const commentEl = document.querySelector('.add-form-text')
 const button = document.querySelector('.add-form-button')
@@ -14,12 +15,12 @@ export const initLikeListeners = () => {
             event.stopPropagation()
 
             const index = likeButtonElement.dataset.index
-            const comment = commentInfo[index]
+            const comments = commentInfo[index]
 
-            comment.counter = comment.likeActive
-                ? comment.counter - 1
-                : comment.counter + 1
-            comment.likeActive = !comment.likeActive
+            comments.likes = comments.isLiked
+                ? comments.likes - 1
+                : comments.likes + 1
+            comments.isLiked = !comments.isLiked
 
             renderComments()
         })
@@ -33,7 +34,7 @@ export const initCommentListeners = () => {
         commentsElement.addEventListener('click', () => {
             const currentComment = commentInfo[commentsElement.dataset.index]
 
-            commentEl.value = `${currentComment.name}: ${currentComment.text}`
+            commentEl.value = `${currentComment.author.name}: ${currentComment.text}`
 
             renderComments()
         })
@@ -58,17 +59,38 @@ button.addEventListener('click', () => {
 
     let timeEl = new Date()
 
-    const newUsers = {
-        name: clearHTML(nameEl.value),
+    const newCommentInfo = {
         text: clearHTML(commentEl.value),
-        data: `${timeEl.toLocaleDateString([], { year: '2-digit', month: 'numeric', day: 'numeric' })} ${timeEl.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
-        counter: 0,
-        likeActive: false,
+        name: clearHTML(nameEl.value),
     }
 
-    commentInfo.push(newUsers)
-    renderComments()
+    const newUsers = {
+        author: {name: clearHTML(nameEl.value)},
+        text: clearHTML(commentEl.value),
+        date: `${timeEl.toLocaleDateString([], { year: '2-digit', month: 'numeric', day: 'numeric' })} ${timeEl.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
+        likes: 0,
+        isLiked: false,
+    }
+
+    fetch('https://wedev-api.sky.pro/api/v1/sergei-zaharychev/comments', {
+        method: 'POST',
+        body: JSON.stringify(newCommentInfo),
+    }).then((response) => {
+        const responseStatus = response.status
+        if (responseStatus === 201) {
+            commentInfo.push(newUsers)
+            updateCommentInfo(commentInfo)
+            renderComments()
+        }
+        if (responseStatus === 400) {
+            if (nameEl.value.length < 3 || commentEl.value.length < 3) {
+            alert('Поля должны иметь больше трёх символов')
+            return
+        }
+        }
+    })
 
     nameEl.value = ''
     commentEl.value = ''
+
 })
