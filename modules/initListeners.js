@@ -9,6 +9,14 @@ const nameEl = document.querySelector('.add-form-name')
 const form = document.querySelector('.add-form')
 const loaderNewComments = document.querySelector('.loader-new')
 
+function delay(interval = 300) {
+   return new Promise((resolve) => {
+      setTimeout(() => {
+      resolve();
+      }, interval);
+   });
+}
+
 export const initLikeListeners = () => {
     const likeButtonElements = document.querySelectorAll('.like-button')
 
@@ -18,13 +26,16 @@ export const initLikeListeners = () => {
 
             const index = likeButtonElement.dataset.index
             const comments = commentInfo[index]
+            likeButtonElement.classList.add('-loading-like')
 
+            delay(2000).then(() => {    
             comments.likes = comments.isLiked
                 ? comments.likes - 1
                 : comments.likes + 1
             comments.isLiked = !comments.isLiked
 
             renderComments()
+            })
         })
     }
 }
