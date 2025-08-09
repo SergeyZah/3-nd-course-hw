@@ -1,11 +1,21 @@
 import { commentInfo } from './commentInfo.js'
 import { renderComments } from './renderComments.js'
 import { clearHTML } from './utils.js'
-import { updateCommentInfo } from './commentInfo.js'
+import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 
 const commentEl = document.querySelector('.add-form-text')
 const button = document.querySelector('.add-form-button')
 const nameEl = document.querySelector('.add-form-name')
+const form = document.querySelector('.add-form')
+const loaderNewComments = document.querySelector('.loader-new')
+
+function delay(interval = 300) {
+   return new Promise((resolve) => {
+      setTimeout(() => {
+      resolve();
+      }, interval);
+   });
+}
 
 export const initLikeListeners = () => {
     const likeButtonElements = document.querySelectorAll('.like-button')
@@ -16,13 +26,16 @@ export const initLikeListeners = () => {
 
             const index = likeButtonElement.dataset.index
             const comments = commentInfo[index]
+            likeButtonElement.classList.add('-loading-like')
 
+            delay(2000).then(() => {    
             comments.likes = comments.isLiked
                 ? comments.likes - 1
                 : comments.likes + 1
             comments.isLiked = !comments.isLiked
 
             renderComments()
+            })
         })
     }
 }
@@ -57,40 +70,37 @@ button.addEventListener('click', () => {
         return
     }
 
-    let timeEl = new Date()
+    loaderNewComments.classList.remove('hidden')
+    form.classList.add('hidden')
 
     const newCommentInfo = {
         text: clearHTML(commentEl.value),
         name: clearHTML(nameEl.value),
     }
 
-    const newUsers = {
-        author: {name: clearHTML(nameEl.value)},
-        text: clearHTML(commentEl.value),
-        date: `${timeEl.toLocaleDateString([], { year: '2-digit', month: 'numeric', day: 'numeric' })} ${timeEl.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
-        likes: 0,
-        isLiked: false,
-    }
-
     fetch('https://wedev-api.sky.pro/api/v1/sergei-zaharychev/comments', {
         method: 'POST',
         body: JSON.stringify(newCommentInfo),
     }).then((response) => {
+
+        loaderNewComments.classList.add('hidden')
+        form.classList.remove('hidden')
+
         const responseStatus = response.status
+
         if (responseStatus === 201) {
-            commentInfo.push(newUsers)
-            updateCommentInfo(commentInfo)
-            renderComments()
-        }
-        if (responseStatus === 400) {
+            return fetchAndRenderComments()
+            
+        } else if (responseStatus === 400) {
             if (nameEl.value.length < 3 || commentEl.value.length < 3) {
-            alert('Поля должны иметь больше трёх символов')
-            return
-        }
+                alert(
+                    'Упс, ошибка! В поле для заполнения должно быть больше трёх символов!',
+                )
+                return
+            }
         }
     })
 
     nameEl.value = ''
     commentEl.value = ''
-
 })

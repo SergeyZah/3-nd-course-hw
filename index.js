@@ -1,13 +1,16 @@
-import { renderComments } from './modules/renderComments.js'
-import { updateCommentInfo } from './modules/commentInfo.js'
+import { fetchAndRenderComments } from './modules/fetchAndRenderComments.js'
 
-fetch('https://wedev-api.sky.pro/api/v1/sergei-zaharychev/comments', {
-    method: 'GET',
-})
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        updateCommentInfo(data.comments)
-        renderComments()
-    })
+    const listCommentEl = document.querySelector('.comments')
+    const loaderComments = document.querySelector('.loader')
+
+    listCommentEl.classList.add('hidden')
+
+    const firstLoad = () => {
+
+    fetchAndRenderComments()
+
+    listCommentEl.classList.remove('hidden')
+    loaderComments.classList.add('hidden')
+    }
+
+firstLoad()
