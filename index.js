@@ -3,14 +3,14 @@ import { fetchAndRenderComments } from './modules/fetchAndRenderComments.js'
     const listCommentEl = document.querySelector('.comments')
     const loaderComments = document.querySelector('.loader')
 
-    listCommentEl.classList.add('hidden')
-
     const firstLoad = () => {
+
+    listCommentEl.classList.add('hidden')
 
     fetchAndRenderComments()
 
-    listCommentEl.classList.remove('hidden')
     loaderComments.classList.add('hidden')
+    listCommentEl.classList.remove('hidden')
     }
 
 firstLoad()

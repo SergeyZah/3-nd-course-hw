@@ -100,7 +100,4 @@ button.addEventListener('click', () => {
             }
         }
     })
-
-    nameEl.value = ''
-    commentEl.value = ''
 })
