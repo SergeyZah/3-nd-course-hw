@@ -1,6 +1,7 @@
 import { commentInfo } from './commentInfo.js'
 import { renderComments } from './renderComments.js'
 import { postComment } from './postComment.js'
+import { clearHTML } from './utils.js'
 
 const commentEl = document.querySelector('.add-form-text')
 const button = document.querySelector('.add-form-button')
@@ -17,7 +18,7 @@ function delay(interval = 300) {
 }
 
 const handlePostClick = () => {
-    postComment().catch((error) => {
+    postComment(clearHTML(commentEl.value),clearHTML(nameEl.value)).catch((error) => {
         if (error.message === 'Ошибка сервера') {
             handlePostClick()
         }
@@ -62,10 +63,32 @@ export const initCommentListeners = () => {
 }
 
 button.addEventListener('click', () => {
+    if (nameEl.value === '' && commentEl.value === '') {
+        nameEl.classList.add('error')
+        commentEl.classList.add('error')
+        setTimeout(() => {
+            nameEl.classList.remove('error')
+            commentEl.classList.remove('error')
+        }, 1500)
+        return
+    } else if (nameEl.value === '') {
+        nameEl.classList.add('error')
+        setTimeout(() => {
+            nameEl.classList.remove('error')
+        }, 1500)
+        return
+    } else if (commentEl.value === '') {
+        commentEl.classList.add('error')
+        setTimeout(() => {
+            commentEl.classList.remove('error')
+        }, 1500)
+        return
+    }
+
     loaderNewComments.classList.remove('hidden')
     form.classList.add('hidden')
 
-    postComment()
+    postComment(clearHTML(commentEl.value),clearHTML(nameEl.value))
         .then(() => {
             loaderNewComments.classList.add('hidden')
             form.classList.remove('hidden')
@@ -77,6 +100,7 @@ button.addEventListener('click', () => {
 
             if (error.message === 'Ошибка сервера') {
                 alert('Ошибка сервера!')
+                handlePostClick()
             }
 
             if (error.message === 'Неверный запрос') {
