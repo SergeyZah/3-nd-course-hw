@@ -1,7 +1,7 @@
 import { commentInfo } from './commentInfo.js'
 import { renderComments } from './renderComments.js'
+import { postComment } from './postComment.js'
 import { clearHTML } from './utils.js'
-import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 
 const commentEl = document.querySelector('.add-form-text')
 const button = document.querySelector('.add-form-button')
@@ -10,11 +10,19 @@ const form = document.querySelector('.add-form')
 const loaderNewComments = document.querySelector('.loader-new')
 
 function delay(interval = 300) {
-   return new Promise((resolve) => {
-      setTimeout(() => {
-      resolve();
-      }, interval);
-   });
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve()
+        }, interval)
+    })
+}
+
+const handlePostClick = () => {
+    postComment(clearHTML(commentEl.value),clearHTML(nameEl.value)).catch((error) => {
+        if (error.message === 'Ошибка сервера') {
+            handlePostClick()
+        }
+    })
 }
 
 export const initLikeListeners = () => {
@@ -28,13 +36,13 @@ export const initLikeListeners = () => {
             const comments = commentInfo[index]
             likeButtonElement.classList.add('-loading-like')
 
-            delay(2000).then(() => {    
-            comments.likes = comments.isLiked
-                ? comments.likes - 1
-                : comments.likes + 1
-            comments.isLiked = !comments.isLiked
+            delay(2000).then(() => {
+                comments.likes = comments.isLiked
+                    ? comments.likes - 1
+                    : comments.likes + 1
+                comments.isLiked = !comments.isLiked
 
-            renderComments()
+                renderComments()
             })
         })
     }
@@ -55,49 +63,58 @@ export const initCommentListeners = () => {
 }
 
 button.addEventListener('click', () => {
-    nameEl.style.backgroundColor = '#fff'
-    commentEl.style.backgroundColor = '#fff'
-
     if (nameEl.value === '' && commentEl.value === '') {
-        nameEl.style.backgroundColor = 'rgb(231, 67, 67)'
-        commentEl.style.backgroundColor = 'rgb(231, 67, 67)'
+        nameEl.classList.add('error')
+        commentEl.classList.add('error')
+        setTimeout(() => {
+            nameEl.classList.remove('error')
+            commentEl.classList.remove('error')
+        }, 1500)
         return
     } else if (nameEl.value === '') {
-        nameEl.style.backgroundColor = 'rgb(231, 67, 67)'
+        nameEl.classList.add('error')
+        setTimeout(() => {
+            nameEl.classList.remove('error')
+        }, 1500)
         return
     } else if (commentEl.value === '') {
-        commentEl.style.backgroundColor = 'rgb(231, 67, 67)'
+        commentEl.classList.add('error')
+        setTimeout(() => {
+            commentEl.classList.remove('error')
+        }, 1500)
         return
     }
 
     loaderNewComments.classList.remove('hidden')
     form.classList.add('hidden')
 
-    const newCommentInfo = {
-        text: clearHTML(commentEl.value),
-        name: clearHTML(nameEl.value),
-    }
-
-    fetch('https://wedev-api.sky.pro/api/v1/sergei-zaharychev/comments', {
-        method: 'POST',
-        body: JSON.stringify(newCommentInfo),
-    }).then((response) => {
-
-        loaderNewComments.classList.add('hidden')
-        form.classList.remove('hidden')
-
-        const responseStatus = response.status
-
-        if (responseStatus === 201) {
-            return fetchAndRenderComments()
-            
-        } else if (responseStatus === 400) {
-            if (nameEl.value.length < 3 || commentEl.value.length < 3) {
-                alert(
-                    'Упс, ошибка! В поле для заполнения должно быть больше трёх символов!',
-                )
-                return
+    postComment(clearHTML(commentEl.value),clearHTML(nameEl.value))
+        .then(() => {
+            loaderNewComments.classList.add('hidden')
+            form.classList.remove('hidden')
+        })
+        .catch((error) => {
+            if (error.message === 'Failed to fetch') {
+                alert('Интернета нет, попробуйте снова!')
             }
-        }
-    })
+
+            if (error.message === 'Ошибка сервера') {
+                alert('Ошибка сервера! Попробуйте позже.')
+                handlePostClick()
+            }
+
+            if (error.message === 'Неверный запрос') {
+                alert(
+                    'Упс, ошибка! В полях для заполнения должно быть больше трёх символов!',
+                )
+
+                nameEl.classList.add('error')
+                commentEl.classList.add('error')
+
+                setTimeout(() => {
+                    nameEl.classList.remove('error')
+                    commentEl.classList.remove('error')
+                }, 2000)
+            }
+        })
 })
