@@ -99,7 +99,7 @@ button.addEventListener('click', () => {
             }
 
             if (error.message === 'Ошибка сервера') {
-                alert('Ошибка сервера!')
+                alert('Ошибка сервера! Попробуйте позже.')
                 handlePostClick()
             }
 
