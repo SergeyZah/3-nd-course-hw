@@ -4,16 +4,16 @@ const commentEl = document.querySelector('.add-form-text')
 const nameEl = document.querySelector('.add-form-name')
 const form = document.querySelector('.add-form')
 const loaderNewComments = document.querySelector('.loader-new')
-
+const host = 'https://wedev-api.sky.pro/api/v2/:sergei-zaharychev'
 export const postComment = (text, name) => {
     return fetch(
-        'https://wedev-api.sky.pro/api/v1/sergei-zaharychev/comments',
+        host + '/comments',
         {
             method: 'POST',
             body: JSON.stringify({
                 text,
                 name,
-                forceError: true,
+                // forceError: true,
             }),
         },
     ).then((response) => {
