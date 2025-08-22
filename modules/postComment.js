@@ -10,6 +10,9 @@ export const postComment = (text, name) => {
         host + '/comments',
         {
             method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({
                 text,
                 name,
