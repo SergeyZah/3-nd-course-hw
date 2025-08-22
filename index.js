@@ -5,12 +5,12 @@ import { fetchAndRenderComments } from './modules/fetchAndRenderComments.js'
 
     const firstLoad = () => {
 
-    listCommentEl.classList.add('hidden')
+    // listCommentEl.classList.add('hidden')
 
     fetchAndRenderComments()
 
     loaderComments.classList.add('hidden')
-    listCommentEl.classList.remove('hidden')
+    // listCommentEl.classList.remove('hidden')
     }
 
 firstLoad()

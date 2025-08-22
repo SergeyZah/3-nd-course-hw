@@ -62,59 +62,59 @@ export const initCommentListeners = () => {
     }
 }
 
-button.addEventListener('click', () => {
-    if (nameEl.value === '' && commentEl.value === '') {
-        nameEl.classList.add('error')
-        commentEl.classList.add('error')
-        setTimeout(() => {
-            nameEl.classList.remove('error')
-            commentEl.classList.remove('error')
-        }, 1500)
-        return
-    } else if (nameEl.value === '') {
-        nameEl.classList.add('error')
-        setTimeout(() => {
-            nameEl.classList.remove('error')
-        }, 1500)
-        return
-    } else if (commentEl.value === '') {
-        commentEl.classList.add('error')
-        setTimeout(() => {
-            commentEl.classList.remove('error')
-        }, 1500)
-        return
-    }
+// button.addEventListener('click', () => {
+//     if (nameEl.value === '' && commentEl.value === '') {
+//         nameEl.classList.add('error')
+//         commentEl.classList.add('error')
+//         setTimeout(() => {
+//             nameEl.classList.remove('error')
+//             commentEl.classList.remove('error')
+//         }, 1500)
+//         return
+//     } else if (nameEl.value === '') {
+//         nameEl.classList.add('error')
+//         setTimeout(() => {
+//             nameEl.classList.remove('error')
+//         }, 1500)
+//         return
+//     } else if (commentEl.value === '') {
+//         commentEl.classList.add('error')
+//         setTimeout(() => {
+//             commentEl.classList.remove('error')
+//         }, 1500)
+//         return
+//     }
 
-    loaderNewComments.classList.remove('hidden')
-    form.classList.add('hidden')
+//     loaderNewComments.classList.remove('hidden')
+//     form.classList.add('hidden')
 
-    postComment(clearHTML(commentEl.value),clearHTML(nameEl.value))
-        .then(() => {
-            loaderNewComments.classList.add('hidden')
-            form.classList.remove('hidden')
-        })
-        .catch((error) => {
-            if (error.message === 'Failed to fetch') {
-                alert('Интернета нет, попробуйте снова!')
-            }
+//     postComment(clearHTML(commentEl.value),clearHTML(nameEl.value))
+//         .then(() => {
+//             loaderNewComments.classList.add('hidden')
+//             form.classList.remove('hidden')
+//         })
+//         .catch((error) => {
+//             if (error.message === 'Failed to fetch') {
+//                 alert('Интернета нет, попробуйте снова!')
+//             }
 
-            if (error.message === 'Ошибка сервера') {
-                alert('Ошибка сервера! Попробуйте позже.')
-                handlePostClick()
-            }
+//             if (error.message === 'Ошибка сервера') {
+//                 alert('Ошибка сервера! Попробуйте позже.')
+//                 handlePostClick()
+//             }
 
-            if (error.message === 'Неверный запрос') {
-                alert(
-                    'Упс, ошибка! В полях для заполнения должно быть больше трёх символов!',
-                )
+//             if (error.message === 'Неверный запрос') {
+//                 alert(
+//                     'Упс, ошибка! В полях для заполнения должно быть больше трёх символов!',
+//                 )
 
-                nameEl.classList.add('error')
-                commentEl.classList.add('error')
+//                 nameEl.classList.add('error')
+//                 commentEl.classList.add('error')
 
-                setTimeout(() => {
-                    nameEl.classList.remove('error')
-                    commentEl.classList.remove('error')
-                }, 2000)
-            }
-        })
-})
+//                 setTimeout(() => {
+//                     nameEl.classList.remove('error')
+//                     commentEl.classList.remove('error')
+//                 }, 2000)
+//             }
+//         })
+// })

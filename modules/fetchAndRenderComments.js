@@ -24,6 +24,6 @@ export const fetchAndRenderComments = () => {
             renderComments()
         })
 
-        nameEl.value = ''
-        commentEl.value = ''
+        // nameEl.value = ''
+        // commentEl.value = ''
 }

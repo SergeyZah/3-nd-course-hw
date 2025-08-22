@@ -2,7 +2,7 @@ import { commentInfo } from './commentInfo.js'
 import { initLikeListeners } from './initListeners.js'
 import { initCommentListeners } from './initListeners.js'
 
-const listCommentEl = document.querySelector('.comments')
+const container = document.querySelector('.container')
 
 export const renderComments = () => {
   
@@ -28,7 +28,33 @@ export const renderComments = () => {
         })
         .join('')
 
-    listCommentEl.innerHTML = commentsHTML
+    container.innerHTML = commentsHTML
+
+    const addCommetnsHtml = `
+            <div class="add-form">
+                <input
+                    type="text"
+                    class="add-form-name"
+                    placeholder="Введите ваше имя"
+                />
+                <textarea
+                    type="textarea"
+                    class="add-form-text"
+                    placeholder="Введите ваш коментарий"
+                    rows="4"
+                ></textarea>
+                <div class="add-form-row">
+                    <button class="add-form-button">Написать</button>
+                </div>
+            </div>
+            <div class="loader-new hidden">Добавляю комметарий...</div>`
+
+    const linkToLoginText = `<p>Чтобы отправить комментарий, <span class="link-login">войдите</span></p>`
+    
+    const baseHtml = `<ul class ="comments">${commentsHTML}</ul>
+    ${linkToLoginText}`
+
+    container.innerHTML = baseHtml
 
     initLikeListeners()
     initCommentListeners()
