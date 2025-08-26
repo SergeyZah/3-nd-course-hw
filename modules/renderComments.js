@@ -1,6 +1,8 @@
 import { commentInfo } from './commentInfo.js'
 import { initLikeListeners } from './initListeners.js'
 import { initCommentListeners } from './initListeners.js'
+import { renderLogin } from './renderLogin.js'
+import {name, token} from './fetchAndRenderComments.js'
 
 const container = document.querySelector('.container')
 
@@ -31,11 +33,14 @@ export const renderComments = () => {
     container.innerHTML = commentsHTML
 
     const addCommetnsHtml = `
+            <div class="loader-new hidden">Добавляю комметарий...</div>
             <div class="add-form">
                 <input
                     type="text"
                     class="add-form-name"
                     placeholder="Введите ваше имя"
+                    readonly
+                    value="${name}"
                 />
                 <textarea
                     type="textarea"
@@ -46,16 +51,21 @@ export const renderComments = () => {
                 <div class="add-form-row">
                     <button class="add-form-button">Написать</button>
                 </div>
-            </div>
-            <div class="loader-new hidden">Добавляю комметарий...</div>`
+            </div>`
 
     const linkToLoginText = `<p>Чтобы отправить комментарий, <span class="link-login">войдите</span></p>`
     
     const baseHtml = `<ul class ="comments">${commentsHTML}</ul>
-    ${linkToLoginText}`
+    ${token ? addCommetnsHtml :linkToLoginText}`
 
     container.innerHTML = baseHtml
 
-    initLikeListeners()
-    initCommentListeners()
+    if (token) {
+      initLikeListeners()
+      initCommentListeners()
+    } else {
+          document.querySelector(".link-login").addEventListener("click", () => {
+      renderLogin()
+    })
+    }
 }

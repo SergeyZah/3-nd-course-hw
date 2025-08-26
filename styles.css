@@ -164,7 +164,8 @@ body {
 }
 
 .link-login {
-  text-decoration: underline;
+  text-decoration: underline; 
+  cursor: pointer;
 }
 
 .add-form {
@@ -183,7 +184,7 @@ body {
 }
 
 .add-form-name {
-  width: 540px;
+  width: 510px;
   padding: 11px 22px;
   margin-bottom: 12px;
 }
