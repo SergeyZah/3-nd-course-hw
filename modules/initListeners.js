@@ -53,9 +53,7 @@ export const initCommentListeners = () => {
         commentsElement.addEventListener('click', () => {
             const currentComment = commentInfo[commentsElement.dataset.index]
 
-            commentEl.value = `${currentComment.author.name}: ${currentComment.text}`
-
-            renderComments()
+            commentEl.value = `${currentComment.author.name}: ${currentComment.text}:`
         })
     }
 

@@ -1,4 +1,4 @@
-const host = 'https://wedev-api.sky.pro/api/v2/:sergei-zaharychev'
+const host = 'https://wedev-api.sky.pro/api/v2/:sergey-zaharychev'
 const authHost = 'https://wedev-api.sky.pro/api/user'
 
 export const login = (login, password) => {

@@ -1,7 +1,7 @@
 import { fetchAndRenderComments } from './fetchAndRenderComments.js'
 
 import { token } from './fetchAndRenderComments.js'
-const host = 'https://wedev-api.sky.pro/api/v2/:sergei-zaharychev'
+const host = 'https://wedev-api.sky.pro/api/v2/:sergey-zaharychev'
 
 export const postComment = (text, name) => {
     const form = document.querySelector('.add-form')

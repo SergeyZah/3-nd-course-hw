@@ -47,6 +47,7 @@ export const renderComments = () => {
                     class="add-form-text"
                     placeholder="Введите ваш коментарий"
                     rows="4"
+                    value=""
                 ></textarea>
                 <div class="add-form-row">
                     <button class="add-form-button">Написать</button>
