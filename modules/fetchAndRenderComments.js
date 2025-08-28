@@ -4,7 +4,7 @@ import { renderComments } from "./renderComments.js"
 const host = 'https://wedev-api.sky.pro/api/v2/:sergey-zaharychev'
 const authHost = 'https://wedev-api.sky.pro/api/user'
 
-export let token = ''
+export let token = localStorage.getItem('saveToken')
 
 export const setToken = (newToken) => {
     token = newToken

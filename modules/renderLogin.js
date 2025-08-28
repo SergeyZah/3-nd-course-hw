@@ -44,6 +44,9 @@ export const renderLogin = () => {
         }).then((data) => {
             setToken(data.user.token)
             setName(data.user.name)
+
+            localStorage.setItem('saveToken', data.user.token)
+
             fetchAndRenderComments()
         })
     })

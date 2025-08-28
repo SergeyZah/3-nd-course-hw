@@ -1,6 +1,10 @@
-import { registration } from "./api.js"
-import { fetchAndRenderComments, setName, setToken } from "./fetchAndRenderComments.js"
-import { renderLogin } from "./renderLogin.js"
+import { registration } from './api.js'
+import {
+    fetchAndRenderComments,
+    setName,
+    setToken,
+} from './fetchAndRenderComments.js'
+import { renderLogin } from './renderLogin.js'
 
 export const renderRegistration = () => {
     const container = document.querySelector('.container')
@@ -37,22 +41,27 @@ export const renderRegistration = () => {
     `
     container.innerHTML = loginHtml
 
-    document.querySelector(".entry").addEventListener("click", () => {
+    document.querySelector('.entry').addEventListener('click', () => {
         renderLogin()
     })
 
-    const nameEl = document.querySelector("#name")
-    const loginEl = document.querySelector("#login")
-    const passwordEl = document.querySelector("#password")
-    const submitButtonEl = document.querySelector(".button-main")
+    const nameEl = document.querySelector('#name')
+    const loginEl = document.querySelector('#login')
+    const passwordEl = document.querySelector('#password')
+    const submitButtonEl = document.querySelector('.button-main')
 
-    submitButtonEl.addEventListener("click", () => {
-        registration(nameEl.value, loginEl.value, passwordEl.value).then((response) => {
-            return response.json()
-        }).then((data) => {
-            setToken(data.user.token)
-            setName(data.user.name)
-            fetchAndRenderComments()
-        })
+    submitButtonEl.addEventListener('click', () => {
+        registration(nameEl.value, loginEl.value, passwordEl.value)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                setToken(data.user.token)
+                setName(data.user.name)
+
+                localStorage.setItem('saveToken', data.user.token)
+
+                fetchAndRenderComments()
+            })
     })
 }

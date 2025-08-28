@@ -2,12 +2,11 @@ import { commentInfo } from './commentInfo.js'
 import { initLikeListeners } from './initListeners.js'
 import { initCommentListeners } from './initListeners.js'
 import { renderLogin } from './renderLogin.js'
-import {name, token} from './fetchAndRenderComments.js'
+import { name, token } from './fetchAndRenderComments.js'
 
 const container = document.querySelector('.container')
 
 export const renderComments = () => {
-  
     const commentsHTML = commentInfo
         .map((comment, index) => {
             return `<li class="comment" data-index="${index}">
@@ -52,21 +51,28 @@ export const renderComments = () => {
                 <div class="add-form-row">
                     <button class="add-form-button">Написать</button>
                 </div>
-            </div>`
+            </div>
+            <button id="exit" class="add-form-button">Выйти из профиля</button>`
 
     const linkToLoginText = `<p>Чтобы отправить комментарий, <span class="link-login">войдите</span></p>`
-    
+
     const baseHtml = `<ul class ="comments">${commentsHTML}</ul>
-    ${token ? addCommetnsHtml :linkToLoginText}`
+    ${token ? addCommetnsHtml : linkToLoginText}`
 
     container.innerHTML = baseHtml
 
     if (token) {
-      initLikeListeners()
-      initCommentListeners()
+        initLikeListeners()
+        initCommentListeners()
+
+        document.getElementById('exit').addEventListener('click', () => {
+            renderLogin()
+            localStorage.removeItem('saveToken')
+        })
+
     } else {
-          document.querySelector(".link-login").addEventListener("click", () => {
-      renderLogin()
-    })
+        document.querySelector('.link-login').addEventListener('click', () => {
+            renderLogin()
+        })
     }
 }
