@@ -42,12 +42,19 @@ export const renderLogin = () => {
         login(loginEl.value, passwordEl.value).then((response) => {
             return response.json()
         }).then((data) => {
+
+            console.log(data)
+
             setToken(data.user.token)
             setName(data.user.name)
 
             localStorage.setItem('saveToken', data.user.token)
 
             fetchAndRenderComments()
+        }).catch((error) => {
+            if (error.message === 'Неверный логин или пароль') {
+                alert('Неверный логин или пароль')
+            }
         })
     })
 }

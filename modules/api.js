@@ -5,6 +5,14 @@ export const login = (login, password) => {
     return fetch(authHost + '/login', {
         method: 'POST',
         body: JSON.stringify({login: login, password: password}),
+    }).then((response) => {
+        const responseStatusLogin = response.status
+
+        console.log(responseStatusLogin)
+
+        if (responseStatusLogin === 400) {
+            throw new Error ('Неверный логин или пароль')
+        }
     })
 }
 
