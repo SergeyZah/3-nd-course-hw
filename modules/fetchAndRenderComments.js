@@ -1,11 +1,23 @@
 import { updateCommentInfo } from "./commentInfo.js"
 import { renderComments } from "./renderComments.js"
 
-const commentEl = document.querySelector('.add-form-text')
-const nameEl = document.querySelector('.add-form-name')
+const host = 'https://wedev-api.sky.pro/api/v2/:sergey-zaharychev'
+const authHost = 'https://wedev-api.sky.pro/api/user'
+
+export let token = localStorage.getItem('saveToken')
+
+export const setToken = (newToken) => {
+    token = newToken
+}
+
+export let name = ''
+
+export const setName = (newName) => {
+    name = newName
+}
 
 export const fetchAndRenderComments = () => {
-    fetch('https://wedev-api.sky.pro/api/v1/sergei-zaharychev/comments', {
+    fetch(host +'/comments', {
         method: 'GET',
     })
         .then((response) => {
@@ -16,6 +28,6 @@ export const fetchAndRenderComments = () => {
             renderComments()
         })
 
-        nameEl.value = ''
-        commentEl.value = ''
+        // nameEl.value = ''
+        // commentEl.value = ''
 }

@@ -3,12 +3,6 @@ import { renderComments } from './renderComments.js'
 import { postComment } from './postComment.js'
 import { clearHTML } from './utils.js'
 
-const commentEl = document.querySelector('.add-form-text')
-const button = document.querySelector('.add-form-button')
-const nameEl = document.querySelector('.add-form-name')
-const form = document.querySelector('.add-form')
-const loaderNewComments = document.querySelector('.loader-new')
-
 function delay(interval = 300) {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -50,19 +44,20 @@ export const initLikeListeners = () => {
 
 export const initCommentListeners = () => {
     const commentsElements = document.querySelectorAll('.comment')
+    const button = document.querySelector('.add-form-button')
+    const commentEl = document.querySelector('.add-form-text')
+    const nameEl = document.querySelector('.add-form-name')
+    const loaderNewComments = document.querySelector('.loader-new')
 
     for (const commentsElement of commentsElements) {
         commentsElement.addEventListener('click', () => {
             const currentComment = commentInfo[commentsElement.dataset.index]
 
-            commentEl.value = `${currentComment.author.name}: ${currentComment.text}`
-
-            renderComments()
+            commentEl.value = `${currentComment.author.name}: ${currentComment.text}:`
         })
     }
-}
 
-button.addEventListener('click', () => {
+    button.addEventListener('click', () => {
     if (nameEl.value === '' && commentEl.value === '') {
         nameEl.classList.add('error')
         commentEl.classList.add('error')
@@ -86,12 +81,11 @@ button.addEventListener('click', () => {
     }
 
     loaderNewComments.classList.remove('hidden')
-    form.classList.add('hidden')
 
     postComment(clearHTML(commentEl.value),clearHTML(nameEl.value))
         .then(() => {
             loaderNewComments.classList.add('hidden')
-            form.classList.remove('hidden')
+            button.disabled = false
         })
         .catch((error) => {
             if (error.message === 'Failed to fetch') {
@@ -118,3 +112,4 @@ button.addEventListener('click', () => {
             }
         })
 })
+}
